@@ -1,11 +1,15 @@
-output "website_url" {
-  value = "https://${var.domain_name}"
+output "bucket_name" {
+  value = aws_s3_bucket.website.id
 }
 
-output "cloudfront_domain" {
+output "distribution_id" {
+  value = aws_cloudfront_distribution.cdn.id
+}
+
+output "distribution_domain_name" {
   value = aws_cloudfront_distribution.cdn.domain_name
 }
 
-output "pipeline_url" {
-  value = "https://console.aws.amazon.com/codesuite/codepipeline/pipelines/neatfleets-pipeline/view"
+output "website_url" {
+  value = "https://${var.domain_name}"
 }

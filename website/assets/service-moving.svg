@@ -1,0 +1,15 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" rx="32" fill="#F9F4E7"/>
+  <rect x="86" y="382" width="628" height="90" rx="20" fill="#DDE8DD"/>
+  <rect x="142" y="197" width="317" height="164" rx="22" fill="#12372A"/>
+  <rect x="452" y="240" width="160" height="121" rx="18" fill="#2D6A4F"/>
+  <rect x="496" y="180" width="91" height="79" rx="14" fill="#4D8B67"/>
+  <circle cx="247" cy="392" r="39" fill="#17201B"/>
+  <circle cx="530" cy="392" r="39" fill="#17201B"/>
+  <circle cx="247" cy="392" r="17" fill="#F5EFE0"/>
+  <circle cx="530" cy="392" r="17" fill="#F5EFE0"/>
+  <rect x="198" y="232" width="94" height="55" rx="12" fill="#F8FBF6"/>
+  <rect x="306" y="232" width="94" height="55" rx="12" fill="#F8FBF6"/>
+  <rect x="102" y="118" width="170" height="44" rx="16" fill="#FFF8EA"/>
+  <text x="129" y="147" fill="#12372A" font-family="Arial, sans-serif" font-size="24" font-weight="700">Moving</text>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="1000" height="750" viewBox="0 0 1000 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="750" rx="36" fill="#F7F1E2"/>
+  <rect x="81" y="495" width="838" height="110" rx="28" fill="#DCE7DA"/>
+  <rect x="119" y="336" width="267" height="108" rx="20" fill="#2D6A4F"/>
+  <rect x="388" y="291" width="189" height="153" rx="22" fill="#12372A"/>
+  <rect x="607" y="321" width="128" height="123" rx="20" fill="#4D8B67"/>
+  <circle cx="194" cy="497" r="36" fill="#17201B"/>
+  <circle cx="465" cy="497" r="36" fill="#17201B"/>
+  <circle cx="669" cy="497" r="36" fill="#17201B"/>
+  <rect x="214" y="230" width="124" height="82" rx="16" fill="#E6A94A"/>
+  <rect x="134" y="202" width="73" height="110" rx="16" fill="#D8883D"/>
+  <rect x="92" y="125" width="172" height="42" rx="16" fill="#FFF8EA"/>
+  <text x="118" y="152" fill="#12372A" font-family="Arial, sans-serif" font-size="24" font-weight="700">Hauling</text>
+</svg>

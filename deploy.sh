@@ -1,53 +1,68 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-# Colors for output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TERRAFORM_DIR="${ROOT_DIR}/terraform"
+WEBSITE_DIR="${ROOT_DIR}/website"
+TFVARS_FILE="${TERRAFORM_DIR}/terraform.tfvars"
 
-echo -e "${GREEN}=== Neat Fleets Website Deployment ===${NC}"
+DEFAULT_ROOT_DOMAIN="neatfleets-services.com"
+DEFAULT_FULL_DOMAIN="www.neatfleets-services.com"
+DEFAULT_REGION="us-west-2"
 
-# Check prerequisites
-command -v terraform >/dev/null 2>&1 || { echo "Terraform is required but not installed. Aborting." >&2; exit 1; }
-command -v aws >/dev/null 2>&1 || { echo "AWS CLI is required. Aborting." >&2; exit 1; }
+echo "Neat Fleets Services deploy"
+echo
 
-# Optional: set variables
-read -p "Enter your root domain (e.g., neatfleets-services.com): " ROOT_DOMAIN
-read -p "Enter your full domain (e.g., www.neatfleets-services.com): " FULL_DOMAIN
-read -p "Enter GitHub repo (e.g., youruser/neatfleets-website): " GITHUB_REPO
+command -v terraform >/dev/null 2>&1 || { echo "Terraform is required but not installed."; exit 1; }
+command -v aws >/dev/null 2>&1 || { echo "AWS CLI is required but not installed."; exit 1; }
 
-# Update terraform variables
-cd terraform
-cat > terraform.tfvars <<EOF
-domain_name = "$FULL_DOMAIN"
-root_domain = "$ROOT_DOMAIN"
-github_repo = "$GITHUB_REPO"
-github_branch = "main"
+read -r -p "Root domain [${DEFAULT_ROOT_DOMAIN}]: " ROOT_DOMAIN
+ROOT_DOMAIN="${ROOT_DOMAIN:-$DEFAULT_ROOT_DOMAIN}"
+
+read -r -p "Website domain [${DEFAULT_FULL_DOMAIN}]: " FULL_DOMAIN
+FULL_DOMAIN="${FULL_DOMAIN:-$DEFAULT_FULL_DOMAIN}"
+
+read -r -p "AWS region [${DEFAULT_REGION}]: " AWS_REGION
+AWS_REGION="${AWS_REGION:-$DEFAULT_REGION}"
+
+cat > "${TFVARS_FILE}" <<EOF
+root_domain = "${ROOT_DOMAIN}"
+domain_name = "${FULL_DOMAIN}"
+aws_region  = "${AWS_REGION}"
 EOF
 
-echo -e "${YELLOW}Initializing Terraform...${NC}"
+cd "${TERRAFORM_DIR}"
+
+echo
+echo "Initializing Terraform..."
 terraform init
 
-echo -e "${YELLOW}Planning infrastructure...${NC}"
+echo
+echo "Planning infrastructure..."
 terraform plan
 
-echo -e "${GREEN}Do you want to apply? (yes/no)${NC}"
-read CONFIRM
-if [[ $CONFIRM == "yes" ]]; then
-    terraform apply -auto-approve
-    echo -e "${GREEN}Infrastructure deployed successfully!${NC}"
-    echo -e "Website URL: $(terraform output -raw website_url)"
-else
-    echo "Deployment cancelled."
-    exit 0
+echo
+read -r -p "Apply infrastructure now? [yes/no]: " APPLY_CONFIRM
+if [[ "${APPLY_CONFIRM}" != "yes" ]]; then
+  echo "Deployment cancelled."
+  exit 0
 fi
 
-# Output CloudFront ID for buildspec
-CLOUDFRONT_ID=$(terraform output -raw cloudfront_domain | cut -d'.' -f1)
-echo "CLOUDFRONT_ID=$CLOUDFRONT_ID" > ../build_env
+terraform apply -auto-approve
 
-echo -e "${GREEN}Next steps:${NC}"
-echo "1. Go to AWS CodePipeline console and create a connection to your GitHub repo if not already done."
-echo "2. Push your website code to GitHub branch 'main'."
-echo "3. Pipeline will automatically deploy changes to S3 + invalidate CloudFront."
+BUCKET_NAME="$(terraform output -raw bucket_name)"
+DISTRIBUTION_ID="$(terraform output -raw distribution_id)"
+WEBSITE_URL="$(terraform output -raw website_url)"
+
+echo
+echo "Uploading website files to S3..."
+aws s3 sync "${WEBSITE_DIR}/" "s3://${BUCKET_NAME}/" --delete
+
+echo
+echo "Creating CloudFront invalidation..."
+aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths "/*" >/dev/null
+
+echo
+echo "Deployment complete."
+echo "Website URL: ${WEBSITE_URL}"
+echo "CloudFront may take a few minutes to finish the first distribution update."

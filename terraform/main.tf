@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.5.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -11,59 +13,59 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Provider for ACM certificate (must be us-east-1 for CloudFront)
 provider "aws" {
-  alias  = "us-east-1"
+  alias  = "us_east_1"
   region = "us-east-1"
 }
 
-# S3 bucket for website hosting
 resource "aws_s3_bucket" "website" {
-  bucket = var.domain_name
+  bucket        = var.domain_name
+  force_destroy = true
 }
 
-resource "aws_s3_bucket_website_configuration" "website" {
+resource "aws_s3_bucket_ownership_controls" "website" {
   bucket = aws_s3_bucket.website.id
-  index_document {
-    suffix = "index.html"
-  }
-  error_document {
-    key = "error.html"
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "website" {
   bucket = aws_s3_bucket.website.id
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "website" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "website" {
   bucket = aws_s3_bucket.website.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.website.arn}/*"
-      }
-    ]
-  })
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
-# S3 bucket for CodePipeline artifacts
-resource "aws_s3_bucket" "artifacts" {
-  bucket = "${var.domain_name}-artifacts"
-}
+resource "aws_s3_bucket_versioning" "website" {
+  bucket = aws_s3_bucket.website.id
 
-resource "aws_s3_bucket_versioning" "artifacts" {
-  bucket = aws_s3_bucket.artifacts.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "website" {
+  bucket = aws_s3_bucket.website.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
   }
 }

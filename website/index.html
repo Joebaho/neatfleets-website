@@ -3,112 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neat Fleets Services | Moving & Hauling Pros</title>
+    <title>Neat Fleets Services | Moving, Haul Away, Trash Removal & Delivery</title>
+    <meta
+        name="description"
+        content="Neat Fleets Services helps homes and businesses with moving, junk removal, trash haul away, labor help, and local delivery in Hollister, California and nearby communities."
+    >
+    <meta name="theme-color" content="#12372a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header / Navigation -->
-    <header>
-        <div class="container">
-            <div class="logo">Neat Fleets</div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <a href="#quote" class="btn-quote">Get Quote</a>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="#top" aria-label="Neat Fleets Services home">
+                <span class="brand-mark">NF</span>
+                <span class="brand-copy">
+                    <strong>Neat Fleets</strong>
+                    <span>Moving, Hauling & Delivery</span>
+                </span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                Menu
+            </button>
+
+            <nav id="site-nav" class="site-nav">
+                <a href="#services">Services</a>
+                <a href="#process">How It Works</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#areas">Service Area</a>
+                <a href="#contact">Contact</a>
+                <a class="btn btn-solid nav-cta" href="#quote">Get A Quote</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <span class="badge">Professional Moving & Hauling</span>
-                <h1>Move It. Haul It. Deliver It. <br>We’ve Got You Covered.</h1>
-                <p>Reliable, affordable moving, junk removal, trash haul away, and delivery services. Serving Hollister, CA and beyond.</p>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn-primary"><i class="fas fa-truck-moving"></i> Free Estimate</a>
-                    <a href="#services" class="btn-outline">Our Services</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600" alt="Moving truck">
-            </div>
-        </div>
-    </section>
+    <main id="top">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">Professional local service for homes, offices, and job sites</p>
+                    <h1>Clean moves, fast haul away, and dependable local delivery.</h1>
+                    <p class="hero-text">
+                        Neat Fleets Services helps customers clear space and move with confidence. We handle apartment moves, furniture pickup, junk removal, trash haul away, and same-day local delivery with a friendly, hard-working crew.
+                    </p>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2>What We Do</h2>
-            <p class="section-subtitle">Fast, affordable, and professional services tailored to your needs.</p>
-            <div class="service-grid">
-                <div class="service-card">
-                    <i class="fas fa-truck-moving"></i>
-                    <h3>Moving Services</h3>
-                    <p>Residential & commercial moves. Local or long distance. We handle everything with care.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-solid" href="#quote">Request Free Estimate</a>
+                        <a class="btn btn-outline" href="#services">View Services</a>
+                    </div>
+
+                    <ul class="hero-points">
+                        <li>Fast response for local jobs</li>
+                        <li>Residential and small business support</li>
+                        <li>Simple booking and upfront communication</li>
+                    </ul>
                 </div>
-                <div class="service-card">
-                    <i class="fas fa-dumpster"></i>
-                    <h3>Haul Away</h3>
-                    <p>Old furniture, appliances, construction debris – we haul it away responsibly.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-trash-alt"></i>
-                    <h3>Trash Removal</h3>
-                    <p>Junk removal, clutter cleanup, and disposal. Same‑day service available.</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-boxes"></i>
-                    <h3>Delivery</h3>
-                    <p>Package and freight delivery. Fast, tracked, and secure for your business or home.</p>
+
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <img src="assets/hero-moving.svg" alt="Illustration of a moving and hauling truck team">
+                    </div>
+                    <div class="hero-stats">
+                        <article>
+                            <strong>4 Core Services</strong>
+                            <span>Moving, haul away, trash removal, delivery</span>
+                        </article>
+                        <article>
+                            <strong>Local Coverage</strong>
+                            <span>Hollister and surrounding California communities</span>
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Gallery Section with real pictures -->
-    <section id="gallery" class="gallery">
-        <div class="container">
-            <h2>Recent Work</h2>
-            <div class="gallery-grid">
-                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400" alt="Moving crew">
-                <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?w=400" alt="Junk removal">
-                <img src="https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=400" alt="Delivery">
-                <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=400" alt="Hauling">
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <p><i class="fas fa-phone-alt"></i> (555) 123-4567</p>
-                    <p><i class="fas fa-envelope"></i> hello@neatfleets-services.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Hollister, CA & surrounding areas</p>
+        <section class="trust-strip">
+            <div class="container trust-grid">
+                <div>
+                    <strong>Home & apartment moves</strong>
+                    <span>Boxes, furniture, loading, unloading</span>
                 </div>
-                <form id="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Email" required>
-                    <textarea rows="4" placeholder="Tell us about your move..."></textarea>
-                    <button type="submit">Send Message <i class="fas fa-paper-plane"></i></button>
+                <div>
+                    <strong>Junk & debris removal</strong>
+                    <span>Garage cleanouts, yard waste, bulky items</span>
+                </div>
+                <div>
+                    <strong>Store pickup & delivery</strong>
+                    <span>Furniture, appliances, local courier support</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">What we do</p>
+                    <h2>Services built for busy households and growing businesses.</h2>
+                    <p>
+                        This website is now structured as a fully static site, which makes it inexpensive to host and easy to update. Every section below is written to clearly explain the business offering and guide visitors into requesting a quote.
+                    </p>
+                </div>
+
+                <div class="service-grid">
+                    <article class="service-card">
+                        <img src="assets/service-moving.svg" alt="Illustration of a team handling a local move">
+                        <h3>Moving Services</h3>
+                        <p>Support for apartment, house, office, and storage moves with loading, unloading, and item handling.</p>
+                    </article>
+                    <article class="service-card">
+                        <img src="assets/service-haul-away.svg" alt="Illustration of haul away and bulk item pickup">
+                        <h3>Haul Away</h3>
+                        <p>Bulky item pickup for furniture, appliances, yard waste, renovation leftovers, and general cleanup jobs.</p>
+                    </article>
+                    <article class="service-card">
+                        <img src="assets/service-trash-removal.svg" alt="Illustration of trash and junk removal service">
+                        <h3>Trash Removal</h3>
+                        <p>Quick junk removal for garages, rental turnovers, sheds, curbside piles, and light property cleanup.</p>
+                    </article>
+                    <article class="service-card">
+                        <img src="assets/service-delivery.svg" alt="Illustration of local furniture and package delivery">
+                        <h3>Local Delivery</h3>
+                        <p>Pickup and drop-off for furniture, marketplace purchases, business supplies, and customer deliveries.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="section section-soft">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">How it works</p>
+                    <h2>A simple process customers can trust.</h2>
+                </div>
+
+                <div class="steps">
+                    <article>
+                        <span>01</span>
+                        <h3>Tell us about the job</h3>
+                        <p>Share the type of service, location, timing, and the items that need to be moved or removed.</p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3>Get a straightforward quote</h3>
+                        <p>We confirm the scope, set expectations, and provide a clear estimate before the work starts.</p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3>We show up ready</h3>
+                        <p>Our crew handles the lift, transport, haul away, or delivery job with care and efficiency.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Visual gallery</p>
+                    <h2>More pictures to make the service feel clear and real.</h2>
+                    <p>
+                        I replaced the previous dependency on remote stock photos with local SVG artwork so the site stays lightweight and self-contained when hosted from S3.
+                    </p>
+                </div>
+
+                <div class="gallery-grid">
+                    <figure class="gallery-card">
+                        <img src="assets/gallery-home-move.svg" alt="Home moving scene with packed boxes and a truck">
+                        <figcaption>Home and apartment moving</figcaption>
+                    </figure>
+                    <figure class="gallery-card">
+                        <img src="assets/gallery-junk-removal.svg" alt="Crew clearing junk and unwanted household items">
+                        <figcaption>Junk and trash removal</figcaption>
+                    </figure>
+                    <figure class="gallery-card">
+                        <img src="assets/gallery-delivery.svg" alt="Delivery truck carrying furniture and packages">
+                        <figcaption>Local pickup and delivery</figcaption>
+                    </figure>
+                    <figure class="gallery-card">
+                        <img src="assets/gallery-hauling.svg" alt="Hauling crew removing bulky items from a property">
+                        <figcaption>Bulk item haul away</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section id="areas" class="section section-dark">
+            <div class="container split-panel">
+                <div>
+                    <p class="eyebrow eyebrow-light">Service area</p>
+                    <h2>Based in Hollister, serving nearby communities.</h2>
+                    <p>
+                        Start with Hollister, San Juan Bautista, Gilroy, Morgan Hill, and nearby areas. If you later expand, this section is easy to update without changing the site structure.
+                    </p>
+                </div>
+                <div class="area-list">
+                    <span>Hollister</span>
+                    <span>San Juan Bautista</span>
+                    <span>Gilroy</span>
+                    <span>Morgan Hill</span>
+                    <span>South County</span>
+                    <span>Nearby local routes</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="quote" class="section quote-band">
+            <div class="container split-panel">
+                <div>
+                    <p class="eyebrow">Get started</p>
+                    <h2>Ready to book a move, pickup, or cleanout?</h2>
+                    <p>Use the contact details below to collect leads. You can later connect this form to Formspree, Amazon SES, or another email service if you want real form delivery.</p>
+                </div>
+                <div class="quote-card">
+                    <p>Email</p>
+                    <a href="mailto:hello@neatfleets-services.com">hello@neatfleets-services.com</a>
+                    <p>Reservations</p>
+                    <span>For any reservation, please email us or call the business phone number only.</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container contact-layout">
+                <div class="contact-copy">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Let’s make the next job easy.</h2>
+                    <p>
+                        The form below is intentionally static-friendly. Right now it gives visitors a polished confirmation message. If you want, we can later wire it to a backend-free form provider without changing the page design.
+                    </p>
+                    <div class="contact-points">
+                        <p><strong>Email:</strong> <a href="mailto:hello@neatfleets-services.com">hello@neatfleets-services.com</a></p>
+                        <p><strong>Phone:</strong> <a href="tel:+15551234567">(555) 123-4567</a></p>
+                        <p><strong>Domain:</strong> <a href="https://www.neatfleets-services.com">www.neatfleets-services.com</a></p>
+                        <p><strong>Base area:</strong> Hollister, California</p>
+                        <p><strong>Reservations:</strong> Email or call the phone number only.</p>
+                    </div>
+
+                    <div class="social-links" aria-label="Social media links">
+                        <a href="https://www.facebook.com/neatfleetsservices" target="_blank" rel="noreferrer">Facebook</a>
+                        <a href="https://www.youtube.com/@neatfleetsservices" target="_blank" rel="noreferrer">YouTube</a>
+                        <a href="https://www.snapchat.com/add/neatfleetsservices" target="_blank" rel="noreferrer">Snapchat</a>
+                        <a href="https://www.linkedin.com/company/neatfleets-services" target="_blank" rel="noreferrer">LinkedIn</a>
+                        <a href="https://www.instagram.com/neatfleetsservices" target="_blank" rel="noreferrer">Instagram</a>
+                        <a href="https://wa.me/15551234567" target="_blank" rel="noreferrer">WhatsApp</a>
+                    </div>
+                </div>
+
+                <form id="contact-form" class="contact-form">
+                    <label>
+                        Name
+                        <input type="text" name="name" placeholder="Your name" required>
+                    </label>
+                    <label>
+                        Email
+                        <input type="email" name="email" placeholder="you@example.com" required>
+                    </label>
+                    <label>
+                        Service needed
+                        <select name="service" required>
+                            <option value="">Choose one</option>
+                            <option>Moving</option>
+                            <option>Haul away</option>
+                            <option>Trash removal</option>
+                            <option>Delivery</option>
+                        </select>
+                    </label>
+                    <label>
+                        Job details
+                        <textarea name="details" rows="5" placeholder="Tell us what needs to be moved, removed, or delivered."></textarea>
+                    </label>
+                    <button class="btn btn-solid" type="submit">Send Request</button>
+                    <p id="form-message" class="form-message" aria-live="polite"></p>
                 </form>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Neat Fleets Services. All rights reserved.</p>
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <p>&copy; <span id="year"></span> Neat Fleets Services. All rights reserved.</p>
+            <p>Static website prepared for Amazon S3 and CloudFront hosting.</p>
         </div>
     </footer>
 

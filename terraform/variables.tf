@@ -1,24 +1,23 @@
+variable "project_name" {
+  description = "Short project name used in AWS resources."
+  type        = string
+  default     = "neatfleets"
+}
+
 variable "aws_region" {
-  description = "AWS region"
+  description = "Primary AWS region for the S3 bucket and Route 53 lookups."
+  type        = string
   default     = "us-west-2"
 }
 
 variable "domain_name" {
-  description = "Your custom domain (e.g., www.neatfleets-services.com)"
+  description = "Full website domain."
+  type        = string
   default     = "www.neatfleets-services.com"
 }
 
 variable "root_domain" {
-  description = "Root domain without www"
+  description = "Root domain hosted in Route 53."
+  type        = string
   default     = "neatfleets-services.com"
-}
-
-variable "github_repo" {
-  description = "GitHub repository full name (e.g., youruser/neatfleets-website)"
-  default     = "yourusername/neatfleets-website"
-}
-
-variable "github_branch" {
-  description = "GitHub branch to deploy"
-  default     = "main"
 }

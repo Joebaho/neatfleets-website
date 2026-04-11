@@ -1,0 +1,17 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" rx="32" fill="#F1F6F3"/>
+  <rect x="82" y="414" width="636" height="58" rx="18" fill="#D8E6DD"/>
+  <rect x="116" y="268" width="362" height="126" rx="20" fill="#12372A"/>
+  <rect x="479" y="299" width="135" height="95" rx="18" fill="#2D6A4F"/>
+  <rect x="513" y="238" width="86" height="72" rx="14" fill="#4D8B67"/>
+  <circle cx="221" cy="418" r="38" fill="#17201B"/>
+  <circle cx="540" cy="418" r="38" fill="#17201B"/>
+  <circle cx="221" cy="418" r="16" fill="#F5EFE0"/>
+  <circle cx="540" cy="418" r="16" fill="#F5EFE0"/>
+  <rect x="160" y="171" width="115" height="81" rx="14" fill="#F2B544"/>
+  <rect x="282" y="198" width="108" height="54" rx="14" fill="#DE8A3B"/>
+  <path d="M631 176L674 219L631 262" stroke="#12372A" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="603" y1="219" x2="682" y2="219" stroke="#12372A" stroke-width="18" stroke-linecap="round"/>
+  <rect x="98" y="110" width="148" height="42" rx="16" fill="#FFF8EA"/>
+  <text x="123" y="137" fill="#12372A" font-family="Arial, sans-serif" font-size="24" font-weight="700">Delivery</text>
+</svg>

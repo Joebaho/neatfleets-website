@@ -1,0 +1,14 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" rx="32" fill="#F8F3E6"/>
+  <rect x="72" y="432" width="656" height="52" rx="18" fill="#DDE4D9"/>
+  <rect x="154" y="230" width="148" height="186" rx="22" fill="#12372A"/>
+  <rect x="184" y="180" width="88" height="42" rx="14" fill="#2D6A4F"/>
+  <rect x="343" y="275" width="124" height="141" rx="22" fill="#2D6A4F"/>
+  <rect x="497" y="212" width="122" height="204" rx="22" fill="#4D8B67"/>
+  <rect x="520" y="166" width="78" height="38" rx="12" fill="#7CAB8D"/>
+  <line x1="204" y1="267" x2="204" y2="373" stroke="#F5EFE0" stroke-width="12" stroke-linecap="round"/>
+  <line x1="228" y1="267" x2="228" y2="373" stroke="#F5EFE0" stroke-width="12" stroke-linecap="round"/>
+  <line x1="252" y1="267" x2="252" y2="373" stroke="#F5EFE0" stroke-width="12" stroke-linecap="round"/>
+  <rect x="96" y="118" width="206" height="42" rx="16" fill="#FFF8EA"/>
+  <text x="121" y="145" fill="#12372A" font-family="Arial, sans-serif" font-size="24" font-weight="700">Trash Removal</text>
+</svg>

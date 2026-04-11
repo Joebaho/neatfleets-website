@@ -1,0 +1,14 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" rx="32" fill="#EFF5EE"/>
+  <rect x="84" y="430" width="632" height="56" rx="18" fill="#CADCCF"/>
+  <rect x="127" y="285" width="250" height="124" rx="18" fill="#2D6A4F"/>
+  <rect x="377" y="248" width="166" height="161" rx="18" fill="#12372A"/>
+  <rect x="545" y="301" width="96" height="108" rx="18" fill="#4D8B67"/>
+  <circle cx="198" cy="434" r="34" fill="#17201B"/>
+  <circle cx="447" cy="434" r="34" fill="#17201B"/>
+  <circle cx="594" cy="434" r="34" fill="#17201B"/>
+  <rect x="210" y="196" width="124" height="75" rx="14" fill="#F2B544"/>
+  <rect x="141" y="167" width="79" height="104" rx="14" fill="#DE8A3B"/>
+  <rect x="94" y="122" width="166" height="42" rx="16" fill="#FFF8EA"/>
+  <text x="116" y="149" fill="#12372A" font-family="Arial, sans-serif" font-size="24" font-weight="700">Haul Away</text>
+</svg>
