@@ -28,6 +28,7 @@ AWS_REGION="${AWS_REGION:-$DEFAULT_REGION}"
 cat > "${TFVARS_FILE}" <<EOF
 root_domain = "${ROOT_DOMAIN}"
 domain_name = "${FULL_DOMAIN}"
+canonical_domain = "${FULL_DOMAIN}"
 aws_region  = "${AWS_REGION}"
 EOF
 

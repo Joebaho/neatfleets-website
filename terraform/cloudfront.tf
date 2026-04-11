@@ -45,6 +45,55 @@ resource "aws_cloudfront_origin_access_control" "website" {
   signing_protocol                  = "sigv4"
 }
 
+resource "aws_cloudfront_function" "canonical_redirect" {
+  name    = "${var.project_name}-canonical-redirect"
+  runtime = "cloudfront-js-1.0"
+  comment = "Redirect the root domain to the canonical hostname."
+  publish = true
+  code    = <<-EOF
+function handler(event) {
+    var request = event.request;
+    var headers = request.headers;
+    var host = headers.host && headers.host.value ? headers.host.value : "";
+
+    if (host === "${var.root_domain}") {
+        var location = "https://${var.canonical_domain}" + request.uri;
+
+        if (request.querystring && Object.keys(request.querystring).length > 0) {
+            var pairs = [];
+            for (var key in request.querystring) {
+                if (Object.prototype.hasOwnProperty.call(request.querystring, key)) {
+                    var item = request.querystring[key];
+                    if (item.multiValue) {
+                        for (var i = 0; i < item.multiValue.length; i++) {
+                            var mv = item.multiValue[i];
+                            pairs.push(key + "=" + mv.value);
+                        }
+                    } else if (item.value !== undefined) {
+                        pairs.push(key + "=" + item.value);
+                    }
+                }
+            }
+
+            if (pairs.length > 0) {
+                location += "?" + pairs.join("&");
+            }
+        }
+
+        return {
+            statusCode: 301,
+            statusDescription: "Moved Permanently",
+            headers: {
+                location: { value: location }
+            }
+        };
+    }
+
+    return request;
+}
+EOF
+}
+
 resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -76,6 +125,11 @@ resource "aws_cloudfront_distribution" "cdn" {
     min_ttl     = 0
     default_ttl = 3600
     max_ttl     = 86400
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.canonical_redirect.arn
+    }
   }
 
   custom_error_response {

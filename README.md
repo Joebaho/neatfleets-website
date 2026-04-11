@@ -14,6 +14,16 @@ The project is set up for the cheapest practical AWS production path for a custo
 - AWS Certificate Manager for SSL
 - Route 53 for DNS
 
+The preferred public URL is:
+
+- `https://www.neatfleets-services.com`
+
+The root domain:
+
+- `https://neatfleets-services.com`
+
+is configured to redirect to the `www` version.
+
 ## Is the current project good enough?
 
 Yes, now it is much closer to launch-ready than the original starter version.
@@ -23,6 +33,7 @@ The site has been improved to:
 - Use local image assets instead of depending on third-party stock image URLs
 - Better explain the business services
 - Include more visual sections and clearer calls to action
+- Use photo-based third-party images for a more realistic look
 - Include a real `error.html`
 - Use a simpler AWS architecture with fewer moving parts
 
@@ -98,6 +109,27 @@ After deployment:
 
 - Visit `https://www.neatfleets-services.com`
 - Give CloudFront and ACM a few minutes if DNS or certificate validation is still propagating
+
+## Domain and certificate responsibilities
+
+Terraform in this repo will create:
+
+- The ACM certificate for `www.neatfleets-services.com`
+- The ACM certificate coverage for `neatfleets-services.com`
+- The DNS validation records in Route 53
+- The CloudFront distribution
+- The Route 53 alias records pointing the domain to CloudFront
+
+Terraform in this repo will not create:
+
+- The original purchase or registration of `neatfleets-services.com`
+- The initial Route 53 hosted zone if it does not already exist
+
+So:
+
+1. You must already own the domain name
+2. You should already have the hosted zone in Route 53
+3. Then this Terraform code can create the certificate and connect the domain to the website
 
 ## How to enable automatic deployment
 

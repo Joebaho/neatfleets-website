@@ -21,3 +21,9 @@ variable "root_domain" {
   type        = string
   default     = "neatfleets-services.com"
 }
+
+variable "canonical_domain" {
+  description = "Preferred hostname for public traffic."
+  type        = string
+  default     = "www.neatfleets-services.com"
+}
