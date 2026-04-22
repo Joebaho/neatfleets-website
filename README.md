@@ -205,3 +205,34 @@ Before going live, replace these items with your real business details:
 - The contact form is static for now and shows a success message in the browser.
 - If you want real submissions, a cheap next step is connecting it to Formspree or a lightweight email service.
 - The Terraform setup assumes your root domain is already in Route 53.
+
+## 🤝 Contribution
+
+Pull requests are welcome. For major changes, please open an issue first.
+
+## 👨‍💻 Author
+
+**Joseph Mbatchou**
+
+• DevOps / Cloud / Platform  Engineer   
+• Content Creator / AWS Builder
+
+## 🔗 Connect With Me
+
+🌐 Website: [https://platform.joebahocloud.com](https://platform.joebahocloud.com)
+
+💼 LinkedIn: [https://www.linkedin.com/in/josephmbatchou/](https://www.linkedin.com/in/josephmbatchou/)
+
+🐦 X/Twitter: [https://www.twitter.com/Joebaho237](https://www.twitter.com/Joebaho237)
+
+▶️ YouTube: [https://www.youtube.com/@josephmbatchou5596](https://www.youtube.com/@josephmbatchou5596)
+
+🔗 Github: [https://github.com/Joebaho](https://github.com/Joebaho)
+
+📦 Dockerhub: [https://hub.docker.com/u/joebaho2](https://hub.docker.com/u/joebaho2)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the LICENSE file for details.
