@@ -1,20 +1,64 @@
-# Neat Fleets Services Static Website
+# Neat Fleets Services Website
 
-This repository now contains a full static website for:
+## Purpose
 
-- Moving services
+This project contains a static business website for **Neat Fleets Services**.
+
+The website is designed to present and promote these services:
+
+- Moving
 - Haul away
 - Trash removal
 - Local delivery
 
-The project is set up for the cheapest practical AWS production path for a custom domain with HTTPS:
+The goal of the website is to:
 
-- Amazon S3 for static files
-- Amazon CloudFront for HTTPS and caching
-- AWS Certificate Manager for SSL
-- Route 53 for DNS
+- explain the business clearly
+- show service pictures and business information
+- let customers find contact details quickly
+- support a custom domain with HTTPS
+- stay simple and inexpensive to host and maintain
 
-The preferred public URL is:
+## What This Project Contains
+
+This repository includes:
+
+- a static frontend website
+- Terraform files to create the AWS infrastructure
+- a deploy script for first deployment and infrastructure changes
+- a destroy script to remove the AWS resources
+- a GitHub Actions workflow for automatic website updates
+
+## Main Folders And Files
+
+- Website files: `/Users/josephmbatchou/Documents/neatfleets-website/website`
+- Terraform files: `/Users/josephmbatchou/Documents/neatfleets-website/terraform`
+- Deploy script: `/Users/josephmbatchou/Documents/neatfleets-website/deploy.sh`
+- Destroy script: `/Users/josephmbatchou/Documents/neatfleets-website/destroy.sh`
+- GitHub Actions workflow: `/Users/josephmbatchou/Documents/neatfleets-website/.github/workflows/deploy.yml`
+
+## Architecture
+
+The website is hosted as a static site on AWS using:
+
+- Amazon S3 for website files
+- Amazon CloudFront for secure delivery and caching
+- AWS Certificate Manager for HTTPS certificates
+- Amazon Route 53 for DNS
+- GitHub Actions for automatic deployment after updates
+
+### AWS Region Behavior
+
+- S3 bucket is created in `us-west-2`
+- CloudFront is a global AWS service
+- Route 53 is a global AWS service
+- ACM certificate for CloudFront is created in `us-east-1`
+
+This is the normal AWS requirement for CloudFront HTTPS.
+
+## Domain Behavior
+
+The intended public website is:
 
 - `https://www.neatfleets-services.com`
 
@@ -22,131 +66,81 @@ The root domain:
 
 - `https://neatfleets-services.com`
 
-is configured to redirect to the `www` version.
+redirects to the `www` domain.
 
-## Is the current project good enough?
+## Requirements Before Running
 
-Yes, now it is much closer to launch-ready than the original starter version.
+Before using this project, make sure you have:
 
-The site has been improved to:
-
-- Use local image assets instead of depending on third-party stock image URLs
-- Better explain the business services
-- Include more visual sections and clearer calls to action
-- Use photo-based third-party images for a more realistic look
-- Include a real `error.html`
-- Use a simpler AWS architecture with fewer moving parts
-
-## Cheapest recommended way
-
-If you want to stay on AWS, the cheapest solid option is:
-
-1. Keep the site fully static
-2. Host files in S3
-3. Put CloudFront in front for HTTPS and performance
-4. Manage DNS in Route 53
-5. Upload updates with `aws s3 sync`
-
-This is usually cheaper and simpler than adding CodePipeline and CodeBuild for a small marketing website.
-
-## Automatic updates after changes
-
-Yes, we can still make updates automatic without keeping the old AWS pipeline.
-
-The cheapest clean option is:
-
-1. Keep AWS hosting as `S3 + CloudFront + Route 53 + ACM`
-2. Use GitHub Actions for automatic deployment
-3. Every time you push a change to the `main` branch, GitHub uploads the updated `website/` files to S3 and invalidates CloudFront
-
-That workflow file is:
-
-- `/Users/josephmbatchou/Documents/neatfleets-website/.github/workflows/deploy.yml`
-
-This is usually simpler and lower-cost than AWS CodePipeline for a small static website.
-
-## Files
-
-- Website: `/Users/josephmbatchou/Documents/neatfleets-website/website`
-- Terraform infrastructure: `/Users/josephmbatchou/Documents/neatfleets-website/terraform`
-- Deploy script: `/Users/josephmbatchou/Documents/neatfleets-website/deploy.sh`
-- Destroy script: `/Users/josephmbatchou/Documents/neatfleets-website/destroy.sh`
-
-## Before you deploy
-
-Make sure you have:
-
-- An AWS account
-- AWS CLI installed and configured with credentials
+- an AWS account
 - Terraform installed
-- A Route 53 hosted zone for `neatfleets-services.com`
+- AWS CLI installed
+- AWS credentials configured
+- ownership of the domain `neatfleets-services.com`
+- a Route 53 hosted zone for `neatfleets-services.com`
 
-Configure AWS CLI first:
+Configure AWS CLI if needed:
 
 ```bash
 aws configure
 ```
 
-## How to deploy
+## How It Runs
 
-From the repository root:
+There are two main parts:
+
+1. Infrastructure creation
+2. Website content deployment
+
+### First Deployment
+
+Run the deploy script from the project root:
 
 ```bash
 chmod +x deploy.sh destroy.sh
 ./deploy.sh
 ```
 
-The script will:
+This script will:
 
-1. Ask for your domain and region
-2. Run `terraform init`
-3. Run `terraform plan`
-4. Create the S3 bucket, ACM certificate, CloudFront distribution, and Route 53 records
-5. Upload the files from `website/`
-6. Create a CloudFront invalidation
+1. ask for the domain and region values
+2. run Terraform
+3. create the S3 bucket, CloudFront distribution, ACM certificate, and Route 53 records
+4. upload the website files to S3
+5. invalidate CloudFront so the latest version appears online
 
-After deployment:
+## Automatic Updates After Changes
 
-- Visit `https://www.neatfleets-services.com`
-- Give CloudFront and ACM a few minutes if DNS or certificate validation is still propagating
+After the first deployment, updates can be automatic.
 
-## Domain and certificate responsibilities
+If you change files inside:
 
-Terraform in this repo will create:
+- `/Users/josephmbatchou/Documents/neatfleets-website/website`
 
-- The ACM certificate for `www.neatfleets-services.com`
-- The ACM certificate coverage for `neatfleets-services.com`
-- The DNS validation records in Route 53
-- The CloudFront distribution
-- The Route 53 alias records pointing the domain to CloudFront
+and push the changes to the `main` branch, GitHub Actions will:
 
-Terraform in this repo will not create:
+1. upload the new files to S3
+2. invalidate CloudFront
+3. publish the new version of the website
 
-- The original purchase or registration of `neatfleets-services.com`
-- The initial Route 53 hosted zone if it does not already exist
+This means you do not need to rebuild an application for normal website changes.
 
-So:
+## GitHub Actions Setup
 
-1. You must already own the domain name
-2. You should already have the hosted zone in Route 53
-3. Then this Terraform code can create the certificate and connect the domain to the website
-
-## How to enable automatic deployment
-
-After the infrastructure is created once, set these in your GitHub repository:
+To enable automatic deployment, configure these in the GitHub repository.
 
 ### GitHub Secrets
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
-### GitHub Repository Variables
+### GitHub Variables
 
 - `AWS_REGION`
 - `BUCKET_NAME`
 - `DISTRIBUTION_ID`
 
-You can get the bucket and distribution values from Terraform:
+Get the bucket and distribution values after Terraform deployment:
 
 ```bash
 cd /Users/josephmbatchou/Documents/neatfleets-website/terraform
@@ -154,27 +148,25 @@ terraform output -raw bucket_name
 terraform output -raw distribution_id
 ```
 
-Then push changes to `main`. GitHub Actions will automatically deploy the update.
+## How To Operate The Project
 
-## How to update the website later
+### To update the website content
 
-If you change files inside `website/`, run:
+1. edit files in `/Users/josephmbatchou/Documents/neatfleets-website/website`
+2. commit the changes
+3. push to the `main` branch
+4. wait for GitHub Actions to finish
+5. refresh the browser
+
+### To change infrastructure
+
+If you modify Terraform files, run:
 
 ```bash
 ./deploy.sh
 ```
 
-You can also do only the upload step manually after infrastructure already exists:
-
-```bash
-cd /Users/josephmbatchou/Documents/neatfleets-website/terraform
-BUCKET_NAME="$(terraform output -raw bucket_name)"
-DISTRIBUTION_ID="$(terraform output -raw distribution_id)"
-aws s3 sync ../website/ "s3://${BUCKET_NAME}/" --delete
-aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths "/*"
-```
-
-## How to destroy everything
+### To remove the AWS resources
 
 Run:
 
@@ -182,29 +174,29 @@ Run:
 ./destroy.sh
 ```
 
-That script will run:
+This removes the infrastructure managed by Terraform.
 
-```bash
-terraform destroy -auto-approve
-```
+## What Terraform Creates
 
-The S3 bucket is configured with `force_destroy = true`, so Terraform can remove uploaded files too.
+Terraform creates:
 
-## Important launch checklist
+- the S3 bucket
+- the CloudFront distribution
+- the ACM certificate for the website domain
+- the Route 53 DNS records
+- the redirect behavior from root domain to `www`
 
-Before going live, replace these items with your real business details:
+Terraform does not create:
 
-- Business phone number
-- Final email inbox
-- Exact service area
-- Real social media profile links
-- Any legal or policy pages you want in the footer
+- the original domain purchase
+- the initial Route 53 hosted zone if it does not already exist
 
 ## Notes
 
-- The contact form is static for now and shows a success message in the browser.
-- If you want real submissions, a cheap next step is connecting it to Formspree or a lightweight email service.
-- The Terraform setup assumes your root domain is already in Route 53.
+- The contact form is currently static and does not send real submissions.
+- Before production use, replace placeholder contact values with real business details.
+- For normal content changes, no build step is required.
+
 
 ## 🤝 Contribution
 
