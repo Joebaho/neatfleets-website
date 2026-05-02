@@ -11,6 +11,13 @@ const bookingSummary = document.getElementById("booking-summary");
 const paymentButton = document.getElementById("payment-button");
 const photoInput = document.getElementById("photo-input");
 const photoPreview = document.getElementById("photo-preview");
+const registerForm = document.getElementById("register-form");
+const loginForm = document.getElementById("login-form");
+const logoutButton = document.getElementById("logout-button");
+const guestButton = document.getElementById("guest-button");
+const accountStatus = document.getElementById("account-status");
+const accountMessage = document.getElementById("account-message");
+const bookingLock = document.getElementById("booking-lock");
 
 const baseRates = {
     "party-bagged": 180,
@@ -18,6 +25,8 @@ const baseRates = {
     "bins-overflow": 240,
     "light-bulk": 320
 };
+
+const CUSTOMER_STORAGE_KEY = "neatfleets-customer-account";
 
 if (yearTarget) {
     yearTarget.textContent = new Date().getFullYear();
@@ -36,6 +45,75 @@ function currency(value) {
         currency: "USD",
         maximumFractionDigits: 0
     }).format(value);
+}
+
+function getStoredCustomer() {
+    try {
+        return JSON.parse(window.localStorage.getItem(CUSTOMER_STORAGE_KEY) || "null");
+    } catch (error) {
+        return null;
+    }
+}
+
+function setStoredCustomer(customer) {
+    window.localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer));
+}
+
+function clearStoredCustomer() {
+    window.localStorage.removeItem(CUSTOMER_STORAGE_KEY);
+}
+
+function updateBookingAccess() {
+    const customer = getStoredCustomer();
+    const isActive = Boolean(customer);
+
+    if (accountStatus) {
+        accountStatus.textContent = isActive
+            ? customer.isGuest
+                ? "Guest session active"
+                : `Signed in as ${customer.name} (${customer.email})`
+            : "No customer session is active yet.";
+    }
+
+    if (logoutButton) {
+        logoutButton.hidden = !isActive;
+    }
+
+    if (guestButton) {
+        guestButton.hidden = isActive;
+    }
+
+    if (bookingForm) {
+        bookingForm.classList.toggle("form-disabled", !isActive);
+        const fields = bookingForm.querySelectorAll("input, textarea, select, button");
+        fields.forEach((field) => {
+            field.disabled = !isActive;
+        });
+    }
+
+    if (bookingLock) {
+        bookingLock.hidden = isActive;
+    }
+
+    if (paymentButton && !isActive) {
+        paymentButton.disabled = true;
+    }
+
+    if (isActive && bookingForm) {
+        const nameField = bookingForm.querySelector('input[name="name"]');
+        const emailField = bookingForm.querySelector('input[name="email"]');
+        const phoneField = bookingForm.querySelector('input[name="phone"]');
+
+        if (nameField && !nameField.value && !customer.isGuest) {
+            nameField.value = customer.name || "";
+        }
+        if (emailField && !emailField.value && !customer.isGuest) {
+            emailField.value = customer.email || "";
+        }
+        if (phoneField && !phoneField.value && !customer.isGuest) {
+            phoneField.value = customer.phone || "";
+        }
+    }
 }
 
 function getEstimate(formData) {
@@ -164,6 +242,81 @@ if (bookingForm) {
     });
 }
 
+if (registerForm) {
+    registerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(registerForm);
+        const customer = {
+            name: String(formData.get("name") || "").trim(),
+            email: String(formData.get("email") || "").trim(),
+            phone: String(formData.get("phone") || "").trim(),
+            isGuest: false
+        };
+
+        setStoredCustomer(customer);
+        updateBookingAccess();
+
+        if (accountMessage) {
+            accountMessage.textContent = "Account created. Booking is now unlocked.";
+        }
+
+        registerForm.reset();
+    });
+}
+
+if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const stored = getStoredCustomer();
+        const formData = new FormData(loginForm);
+        const email = String(formData.get("email") || "").trim();
+        const phone = String(formData.get("phone") || "").trim();
+
+        if (!stored || stored.email !== email || stored.phone !== phone) {
+            if (accountMessage) {
+                accountMessage.textContent = "We could not match that account. Create the account first or use the saved email and phone.";
+            }
+            return;
+        }
+
+        updateBookingAccess();
+
+        if (accountMessage) {
+            accountMessage.textContent = "Signed in successfully. You can now complete the booking.";
+        }
+
+        loginForm.reset();
+    });
+}
+
+if (guestButton) {
+    guestButton.addEventListener("click", () => {
+        setStoredCustomer({
+            isGuest: true
+        });
+
+        updateBookingAccess();
+
+        if (accountMessage) {
+            accountMessage.textContent = "Guest session started. You can now complete the booking.";
+        }
+    });
+}
+
+if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+        clearStoredCustomer();
+
+        if (accountMessage) {
+            accountMessage.textContent = "Signed out. Booking is locked again until the customer registers or signs in.";
+        }
+
+        updateBookingAccess();
+    });
+}
+
 if (photoInput) {
     photoInput.addEventListener("change", () => {
         renderPhotos(photoInput.files || []);
@@ -182,3 +335,4 @@ if (paymentButton) {
 }
 
 renderEstimate();
+updateBookingAccess();

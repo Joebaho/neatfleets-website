@@ -302,11 +302,12 @@
             <div class="container booking-layout">
                 <div class="booking-copy">
                     <p class="eyebrow">Dynamic Booking</p>
-                    <h2>Book your pickup with event details, trash type, and photos.</h2>
+                    <h2>Book your pickup with or without a full account.</h2>
                     <p>
-                        Customers can enter the number of guests, the pickup location, the date, the time, the waste category, and image attachments. This works for events, homes, restaurants, building centers, and other business trash service requests. The site will generate a live estimate and booking summary before payment.
+                        Customers can create an account, sign in, or continue as a guest. This keeps the service easier for one-time users while still allowing customer tracking before booking and payment.
                     </p>
                     <ul class="booking-highlights">
+                        <li>Create an account, sign in, or continue as guest</li>
                         <li>Live estimate updates while the form changes</li>
                         <li>Photo upload preview for planning the pickup</li>
                         <li>Booking summary that can be reviewed before checkout</li>
@@ -315,7 +316,53 @@
                 </div>
 
                 <div class="booking-card">
+                    <section class="account-panel">
+                        <div class="account-header">
+                            <p class="eyebrow">Customer Account</p>
+                            <h3>Create an account, sign in, or continue as guest.</h3>
+                            <p id="account-status" class="account-status">No customer session is active yet.</p>
+                        </div>
+                        <div class="account-grid">
+                            <form id="register-form" class="account-form">
+                                <h4>Create Account</h4>
+                                <label>
+                                    Full name
+                                    <input type="text" name="name" placeholder="Your full name" required>
+                                </label>
+                                <label>
+                                    Email
+                                    <input type="email" name="email" placeholder="you@example.com" required>
+                                </label>
+                                <label>
+                                    Phone
+                                    <input type="tel" name="phone" placeholder="(555) 123-4567" required>
+                                </label>
+                                <button class="btn btn-solid" type="submit">Create Account</button>
+                            </form>
+                            <form id="login-form" class="account-form">
+                                <h4>Sign In</h4>
+                                <label>
+                                    Email
+                                    <input type="email" name="email" placeholder="you@example.com" required>
+                                </label>
+                                <label>
+                                    Phone
+                                    <input type="tel" name="phone" placeholder="(555) 123-4567" required>
+                                </label>
+                                <button class="btn btn-outline" type="submit">Sign In</button>
+                            </form>
+                        </div>
+                        <div class="account-actions">
+                            <button id="guest-button" class="btn btn-light" type="button">Continue As Guest</button>
+                            <button id="logout-button" class="btn btn-light" type="button" hidden>Sign Out</button>
+                            <p id="account-message" class="form-message" aria-live="polite"></p>
+                        </div>
+                    </section>
                     <form id="booking-form" class="contact-form">
+                        <div id="booking-lock" class="booking-lock">
+                            <strong>Booking is locked until the customer signs in or starts a guest session.</strong>
+                            <span>Create an account, sign in, or continue as guest above to unlock the booking form and prepare payment tracking.</span>
+                        </div>
                         <label>
                             Customer name
                             <input type="text" name="name" placeholder="Your full name" required>
