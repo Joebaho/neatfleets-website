@@ -489,6 +489,10 @@ h1 {
     color: var(--text);
 }
 
+.company-name-label.is-hidden {
+    display: none;
+}
+
 .account-actions {
     display: flex;
     align-items: center;

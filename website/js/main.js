@@ -18,6 +18,9 @@ const guestButton = document.getElementById("guest-button");
 const accountStatus = document.getElementById("account-status");
 const accountMessage = document.getElementById("account-message");
 const bookingLock = document.getElementById("booking-lock");
+const registerAccountType = registerForm?.querySelector('select[name="accountType"]');
+const companyNameLabel = document.getElementById("company-name-label");
+const companyNameInput = registerForm?.querySelector('input[name="companyName"]');
 
 const baseRates = {
     "party-bagged": 180,
@@ -71,7 +74,9 @@ function updateBookingAccess() {
         accountStatus.textContent = isActive
             ? customer.isGuest
                 ? "Guest session active"
-                : `Signed in as ${customer.name} (${customer.email})`
+                : customer.accountType === "company"
+                    ? `Signed in as ${customer.companyName || customer.name} (${customer.email})`
+                    : `Signed in as ${customer.name} (${customer.email})`
             : "No customer session is active yet.";
     }
 
@@ -113,6 +118,20 @@ function updateBookingAccess() {
         if (phoneField && !phoneField.value && !customer.isGuest) {
             phoneField.value = customer.phone || "";
         }
+    }
+}
+
+function updateAccountTypeFields() {
+    if (!registerAccountType || !companyNameLabel || !companyNameInput) {
+        return;
+    }
+
+    const isCompany = registerAccountType.value === "company";
+    companyNameLabel.classList.toggle("is-hidden", !isCompany);
+    companyNameInput.required = isCompany;
+
+    if (!isCompany) {
+        companyNameInput.value = "";
     }
 }
 
@@ -248,7 +267,9 @@ if (registerForm) {
 
         const formData = new FormData(registerForm);
         const customer = {
+            accountType: String(formData.get("accountType") || "").trim(),
             name: String(formData.get("name") || "").trim(),
+            companyName: String(formData.get("companyName") || "").trim(),
             email: String(formData.get("email") || "").trim(),
             phone: String(formData.get("phone") || "").trim(),
             isGuest: false
@@ -262,6 +283,7 @@ if (registerForm) {
         }
 
         registerForm.reset();
+        updateAccountTypeFields();
     });
 }
 
@@ -305,6 +327,10 @@ if (guestButton) {
     });
 }
 
+if (registerAccountType) {
+    registerAccountType.addEventListener("change", updateAccountTypeFields);
+}
+
 if (logoutButton) {
     logoutButton.addEventListener("click", () => {
         clearStoredCustomer();
@@ -336,3 +362,4 @@ if (paymentButton) {
 
 renderEstimate();
 updateBookingAccess();
+updateAccountTypeFields();
