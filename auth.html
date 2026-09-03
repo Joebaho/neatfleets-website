@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | NeatFleet Services LLC Trash Removal</title>
+    <meta name="description" content="Sign in to your NeatFleet Services LLC account to view bookings and manage your pickups.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+
+<!-- ── Header ── -->
+<header class="site-header scrolled">
+    <div class="container nav-shell">
+        <a class="brand" href="index.html" aria-label="NeatFleet Services LLC home">
+            <img src="images/logo-neatfleets.png" alt="NeatFleet Services LLC" class="brand-logo">
+        </a>
+        <a href="index.html" class="btn btn-outline btn-sm">← Back to Home</a>
+    </div>
+</header>
+<!-- Page title strip -->
+<div class="page-title-strip">
+    <div class="container">
+        <h1>My Account</h1>
+        <p>Sign in or create an account to manage your bookings</p>
+    </div>
+</div>
+
+
+<!-- ── Auth layout ── -->
+<main class="auth-main">
+
+    <!-- Left visual panel -->
+    <div class="auth-visual" aria-hidden="true">
+        <img src="https://images.pexels.com/photos/5025639/pexels-photo-5025639.jpeg?auto=compress&cs=tinysrgb&w=900"
+             alt="" class="auth-visual-img">
+        <div class="auth-visual-overlay"></div>
+        <div class="auth-visual-content">
+            <div class="auth-visual-badge">🔒 Secure account</div>
+            <h2>Manage your pickups in one place</h2>
+            <ul class="auth-perks">
+                <li>📋 View all your bookings and status</li>
+                <li>📅 Track upcoming pickup dates</li>
+                <li>⚡ Pre-fill your details at checkout</li>
+                <li>📧 Receive updates and confirmations</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="auth-form-panel">
+        <div class="auth-form-inner">
+
+            <!-- Logo (mobile only) -->
+            <div class="auth-mobile-logo">
+                <img src="images/logo-neatfleets.png" alt="NeatFleet Services LLC">
+            </div>
+
+            <!-- Tab switcher -->
+            <div class="auth-tabs" role="tablist">
+                <button class="auth-tab active" id="tab-signin" role="tab"
+                        aria-selected="true" aria-controls="panel-signin">
+                    Sign In
+                </button>
+                <button class="auth-tab" id="tab-signup" role="tab"
+                        aria-selected="false" aria-controls="panel-signup">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- Global message (success / error) -->
+            <div class="auth-message" id="auth-message" hidden role="alert"></div>
+
+            <!-- ── SIGN IN ── -->
+            <div class="auth-panel active" id="panel-signin" role="tabpanel" aria-labelledby="tab-signin">
+                <p class="auth-intro">Welcome back. Sign in to access your bookings.</p>
+
+                <form id="form-signin" novalidate autocomplete="on">
+                    <div class="af-field">
+                        <label class="af-label" for="si-email">Email address</label>
+                        <input type="email" id="si-email" name="email"
+                               autocomplete="email" placeholder="you@example.com" required>
+                        <span class="af-error" id="si-email-err"></span>
+                    </div>
+
+                    <div class="af-field">
+                        <label class="af-label" for="si-password">
+                            Password
+                            <a href="#" class="af-forgot" id="forgot-link">Forgot password?</a>
+                        </label>
+                        <div class="af-password-wrap">
+                            <input type="password" id="si-password" name="password"
+                                   autocomplete="current-password" placeholder="Your password" required>
+                            <button type="button" class="af-eye" aria-label="Show password"
+                                    data-target="si-password">👁</button>
+                        </div>
+                        <span class="af-error" id="si-password-err"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-solid btn-full" id="btn-signin">
+                        <span class="btn-label">Sign In</span>
+                        <span class="btn-spin" hidden></span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    Don't have an account?
+                    <a href="#" class="auth-switch-link" data-show="signup">Create one →</a>
+                </p>
+            </div>
+
+            <!-- ── CREATE ACCOUNT ── -->
+            <div class="auth-panel" id="panel-signup" role="tabpanel" aria-labelledby="tab-signup">
+                <p class="auth-intro">Create a free account to book and track your pickups.</p>
+
+                <form id="form-signup" novalidate autocomplete="on">
+                    <div class="af-field">
+                        <label class="af-label" for="su-name">Full name <em class="req">*</em></label>
+                        <input type="text" id="su-name" name="name"
+                               autocomplete="name" placeholder="Your full name" required>
+                        <span class="af-error" id="su-name-err"></span>
+                    </div>
+
+                    <div class="af-field">
+                        <label class="af-label" for="su-email">Email address <em class="req">*</em></label>
+                        <input type="email" id="su-email" name="email"
+                               autocomplete="email" placeholder="you@example.com" required>
+                        <span class="af-error" id="su-email-err"></span>
+                    </div>
+
+                    <div class="af-field">
+                        <label class="af-label" for="su-phone">Phone number</label>
+                        <input type="tel" id="su-phone" name="phone"
+                               autocomplete="tel" placeholder="(555) 000-0000">
+                        <span class="af-hint">Optional — used for pickup coordination</span>
+                    </div>
+
+                    <div class="af-field">
+                        <label class="af-label" for="su-password">Password <em class="req">*</em></label>
+                        <div class="af-password-wrap">
+                            <input type="password" id="su-password" name="password"
+                                   autocomplete="new-password" placeholder="Min 8 characters" required>
+                            <button type="button" class="af-eye" aria-label="Show password"
+                                    data-target="su-password">👁</button>
+                        </div>
+                        <span class="af-hint">At least 8 characters, with uppercase and a number</span>
+                        <span class="af-error" id="su-password-err"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-solid btn-full" id="btn-signup">
+                        <span class="btn-label">Create Account</span>
+                        <span class="btn-spin" hidden></span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    Already have an account?
+                    <a href="#" class="auth-switch-link" data-show="signin">Sign in →</a>
+                </p>
+            </div>
+
+            <!-- ── VERIFY EMAIL ── -->
+            <div class="auth-panel" id="panel-confirm" role="tabpanel">
+                <div class="auth-confirm-icon">📬</div>
+                <h2 class="auth-confirm-title">Check your email</h2>
+                <p class="auth-intro" id="confirm-msg">
+                    We sent a 6-digit code to your email. Enter it below to verify your account.
+                </p>
+
+                <form id="form-confirm" novalidate>
+                    <div class="af-field">
+                        <label class="af-label" for="cf-code">Verification code</label>
+                        <input type="text" id="cf-code" name="code"
+                               inputmode="numeric" pattern="[0-9]*"
+                               placeholder="123456" maxlength="6"
+                               autocomplete="one-time-code" required>
+                        <span class="af-error" id="cf-code-err"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-solid btn-full" id="btn-confirm">
+                        <span class="btn-label">Verify Email</span>
+                        <span class="btn-spin" hidden></span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    Didn't receive it?
+                    <a href="#" id="resend-link">Resend code</a>
+                </p>
+            </div>
+
+            <!-- ── FORGOT PASSWORD ── -->
+            <div class="auth-panel" id="panel-forgot" role="tabpanel">
+                <div class="auth-confirm-icon">🔑</div>
+                <h2 class="auth-confirm-title">Reset your password</h2>
+                <p class="auth-intro">Enter your email and we'll send you a reset code.</p>
+
+                <form id="form-forgot" novalidate>
+                    <div class="af-field">
+                        <label class="af-label" for="fp-email">Email address</label>
+                        <input type="email" id="fp-email" name="email"
+                               autocomplete="email" placeholder="you@example.com" required>
+                        <span class="af-error" id="fp-email-err"></span>
+                    </div>
+                    <button type="submit" class="btn btn-solid btn-full" id="btn-forgot">
+                        <span class="btn-label">Send Reset Code</span>
+                        <span class="btn-spin" hidden></span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    <a href="#" class="auth-switch-link" data-show="signin">← Back to sign in</a>
+                </p>
+            </div>
+
+            <!-- ── RESET PASSWORD ── -->
+            <div class="auth-panel" id="panel-reset" role="tabpanel">
+                <div class="auth-confirm-icon">🔓</div>
+                <h2 class="auth-confirm-title">Set a new password</h2>
+                <p class="auth-intro">Enter the code we sent to your email and choose a new password.</p>
+
+                <form id="form-reset" novalidate>
+                    <div class="af-field">
+                        <label class="af-label" for="rp-code">Reset code</label>
+                        <input type="text" id="rp-code" name="code"
+                               inputmode="numeric" placeholder="123456"
+                               maxlength="6" required>
+                        <span class="af-error" id="rp-code-err"></span>
+                    </div>
+                    <div class="af-field">
+                        <label class="af-label" for="rp-password">New password</label>
+                        <div class="af-password-wrap">
+                            <input type="password" id="rp-password" name="password"
+                                   autocomplete="new-password" placeholder="Min 8 characters" required>
+                            <button type="button" class="af-eye" aria-label="Show password"
+                                    data-target="rp-password">👁</button>
+                        </div>
+                        <span class="af-error" id="rp-password-err"></span>
+                    </div>
+                    <button type="submit" class="btn btn-solid btn-full" id="btn-reset">
+                        <span class="btn-label">Reset Password</span>
+                        <span class="btn-spin" hidden></span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    window.NEATFLEETS_CONFIG = {
+        apiBase: "https://YOUR_API_GATEWAY_ENDPOINT_HERE"
+    };
+</script>
+<script src="js/user.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Terraform state — never commit state files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# Lambda build artifacts
+backend/layer/python/
+backend/layer/deps.zip
+backend/layer-build/
+backend/.zips/
+
+# macOS
+.DS_Store
+
+# Secrets — never commit these
+*.env
+.env*
+secrets.json
+
+# Node (if added later)
+node_modules/

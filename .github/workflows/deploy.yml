@@ -1,34 +1,112 @@
-name: Deploy Static Website
+name: Deploy Neat Fleets
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "website/**"
-      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
+
+  # ── Deploy frontend to S3 + invalidate CloudFront ──────────────────────────
+  deploy-frontend:
+    name: Deploy Frontend
     runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      contains(toJSON(github.event.commits.*.modified), 'website/')
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region:            ${{ vars.AWS_REGION }}
 
-      - name: Sync website files to S3
-        run: aws s3 sync ./website/ "s3://${{ vars.BUCKET_NAME }}/" --delete
+      - name: Sync website to S3
+        run: |
+          aws s3 sync ./website/ "s3://${{ vars.BUCKET_NAME }}/" \
+            --delete \
+            --cache-control "public,max-age=31536000,immutable" \
+            --exclude "*.html"
+          aws s3 sync ./website/ "s3://${{ vars.BUCKET_NAME }}/" \
+            --exclude "*" \
+            --include "*.html" \
+            --cache-control "public,max-age=0,must-revalidate"
 
       - name: Invalidate CloudFront cache
-        run: aws cloudfront create-invalidation --distribution-id "${{ vars.DISTRIBUTION_ID }}" --paths "/*"
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.DISTRIBUTION_ID }}" \
+            --paths "/*"
+
+  # ── Build Lambda layer and deploy backend ──────────────────────────────────
+  deploy-backend:
+    name: Deploy Backend (Lambda)
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      contains(toJSON(github.event.commits.*.modified), 'backend/') ||
+      contains(toJSON(github.event.commits.*.modified), 'terraform/')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build Lambda dependency layer
+        run: |
+          mkdir -p backend/layer/python backend/layer-build backend/.zips
+          pip install \
+            --target backend/layer/python \
+            --platform manylinux2014_x86_64 \
+            --only-binary=:all: \
+            -r backend/requirements.txt
+          cd backend/layer
+          zip -r ../layer-build/deps.zip python/
+          cp ../layer-build/deps.zip deps.zip
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.8.0"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ vars.AWS_REGION }}
+
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform plan
+        working-directory: terraform
+        env:
+          TF_VAR_stripe_secret_key:     ${{ secrets.STRIPE_SECRET_KEY }}
+          TF_VAR_stripe_webhook_secret: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          TF_VAR_business_phone:        ${{ vars.BUSINESS_PHONE }}
+          TF_VAR_ses_from_email:        ${{ vars.SES_FROM_EMAIL }}
+          TF_VAR_ses_reply_to:          ${{ vars.SES_REPLY_TO }}
+        run: terraform plan -out=tfplan
+
+      - name: Terraform apply
+        working-directory: terraform
+        env:
+          TF_VAR_stripe_secret_key:     ${{ secrets.STRIPE_SECRET_KEY }}
+          TF_VAR_stripe_webhook_secret: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          TF_VAR_business_phone:        ${{ vars.BUSINESS_PHONE }}
+          TF_VAR_ses_from_email:        ${{ vars.SES_FROM_EMAIL }}
+          TF_VAR_ses_reply_to:          ${{ vars.SES_REPLY_TO }}
+        run: terraform apply -auto-approve tfplan

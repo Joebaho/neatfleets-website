@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | NeatFleet Services LLC Trash Removal</title>
+    <meta name="description" content="Your NeatFleet Services LLC pickup has been booked. Check your email for confirmation details.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/booking.css">
+</head>
+<body class="booking-page">
+
+<!-- ── Header ── -->
+<header class="site-header scrolled" id="site-header">
+    <div class="container nav-shell">
+        <a class="brand" href="/" aria-label="NeatFleet Services LLC home">
+            <img src="images/logo-neatfleets.png" alt="NeatFleet Services LLC" class="brand-logo">
+        </a>
+        <div class="booking-header-right" style="display:flex;align-items:center;gap:12px;">
+            <!-- Auth nav -->
+            <span id="nav-signin" style="display:none;">
+                <a href="auth.html" class="btn btn-outline btn-sm">Sign In</a>
+            </span>
+            <div id="nav-account" style="display:none;position:relative;">
+                <button id="nav-account-trigger" class="btn btn-sm" style="background:var(--brand);color:#fff;">
+                    My Account ▾
+                </button>
+                <div id="nav-account-menu" class="nav-dropdown" style="display:none;">
+                    <a href="account.html" class="nav-menu-item">My Bookings</a>
+                    <button id="nav-signout" class="nav-menu-item" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:inherit;">Sign Out</button>
+                </div>
+            </div>
+            <a href="/" class="btn btn-outline btn-sm">← Home</a>
+        </div>
+    </div>
+</header>
+<!-- Page title strip -->
+<div class="page-title-strip">
+    <div class="container">
+        <h1>Booking Confirmed</h1>
+        <p>Thank you — we'll take it from here</p>
+    </div>
+</div>
+
+
+<!-- ── Confirmation main ── -->
+<main class="confirmation-main" id="confirmation-main">
+
+    <!-- Loading -->
+    <div class="conf-loading" id="conf-loading" aria-live="polite">
+        <div class="conf-spinner" role="status" aria-label="Loading booking details"></div>
+        <p>Verifying your payment…</p>
+    </div>
+
+    <!-- Error -->
+    <div class="conf-error" id="conf-error" hidden>
+        <div class="conf-error-icon">⚠️</div>
+        <h2>We couldn't load your booking</h2>
+        <p id="conf-error-msg">We couldn't find the booking associated with this page. If you completed a payment, please check your email for a confirmation from us.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+            <a href="/" class="btn btn-outline">Return Home</a>
+            <a href="booking.html" class="btn btn-solid">Book Again</a>
+        </div>
+    </div>
+
+    <!-- Success card -->
+    <div class="conf-card" id="conf-success" hidden>
+        <!-- Green top bar -->
+        <div class="conf-top">
+            <div class="conf-top-icon">🎉</div>
+            <h1>Booking Confirmed!</h1>
+            <p>Your pickup is scheduled. Check your email for full details.</p>
+            <div class="conf-ref" id="conf-ref-display">Loading…</div>
+        </div>
+
+        <!-- Body -->
+        <div class="conf-body">
+
+            <!-- Booking details -->
+            <div class="conf-section-title">Booking Details</div>
+            <div class="conf-rows">
+                <div class="conf-row">
+                    <span class="conf-row-label">Name</span>
+                    <span class="conf-row-value" id="conf-name">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Email</span>
+                    <span class="conf-row-value" id="conf-email">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Phone</span>
+                    <span class="conf-row-value" id="conf-phone">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Service</span>
+                    <span class="conf-row-value" id="conf-service">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Pickup location</span>
+                    <span class="conf-row-value" id="conf-location">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Pickup date</span>
+                    <span class="conf-row-value" id="conf-date">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Pickup time</span>
+                    <span class="conf-row-value" id="conf-time">—</span>
+                </div>
+                <div class="conf-row">
+                    <span class="conf-row-label">Status</span>
+                    <span class="conf-row-value">
+                        <span class="conf-status-pill" id="conf-status">CONFIRMED</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Payment summary -->
+            <div class="conf-section-title">Payment Summary</div>
+            <div class="conf-payment-block">
+                <div class="conf-payment-row">
+                    <span>Estimated service total</span>
+                    <strong id="conf-total">—</strong>
+                </div>
+                <div class="conf-payment-row conf-paid">
+                    <span>Deposit paid</span>
+                    <strong id="conf-paid">—</strong>
+                </div>
+                <div class="conf-payment-row">
+                    <span>Balance due at pickup</span>
+                    <strong id="conf-balance">—</strong>
+                </div>
+            </div>
+
+            <!-- What's next -->
+            <div class="conf-section-title">What Happens Next</div>
+            <ul class="conf-next-list">
+                <li>
+                    <span class="conf-next-icon">✉️</span>
+                    <span>Check your email — a full booking summary has been sent to the address you provided.</span>
+                </li>
+                <li>
+                    <span class="conf-next-icon">📞</span>
+                    <span>Our team may contact you before your pickup to confirm access and any special instructions.</span>
+                </li>
+                <li>
+                    <span class="conf-next-icon">📅</span>
+                    <span>On your pickup day, have the trash accessible and ready. The balance is due at the time of service.</span>
+                </li>
+                <li>
+                    <span class="conf-next-icon">💬</span>
+                    <span>Have questions? Reach out to us — contact info is in your confirmation email.</span>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="conf-actions">
+                <a href="/" class="btn btn-outline">← Back to Home</a>
+                <a href="booking.html" class="btn btn-solid">Book Another Pickup</a>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script>
+    window.NEATFLEETS_CONFIG = {
+        apiBase: "https://YOUR_API_GATEWAY_ENDPOINT_HERE"
+    };
+</script>
+<script src="js/user.js"></script>
+<script src="js/main.js"></script>
+<script src="js/confirmation.js"></script>
+
+</body>
+</html>

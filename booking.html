@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Pickup | NeatFleet Services LLC Trash Removal</title>
+    <meta name="description" content="Book your trash pickup online. Choose a service, set the date, upload photos, and pay a deposit to confirm.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/booking.css">
+</head>
+<body class="booking-page">
+
+<!-- ── Header ── -->
+<header class="site-header scrolled" id="site-header">
+    <div class="container nav-shell">
+        <a class="brand" href="index.html" aria-label="NeatFleet Services LLC home">
+            <img src="images/logo-neatfleets.png" alt="NeatFleet Services LLC" class="brand-logo">
+        </a>
+        <div class="booking-header-right">
+            <span class="booking-secure-badge">🔒 Secure booking</span>
+
+            <!-- Auth nav -->
+            <a href="auth.html?redirect=booking.html" class="btn btn-outline btn-sm" id="nav-signin">Sign In</a>
+            <div id="nav-account" style="display:none;">
+                <button id="nav-account-trigger">
+                    <span>👤</span>
+                    <span id="nav-account-name">My Account</span>
+                </button>
+                <div id="nav-account-menu">
+                    <a href="account.html" class="nav-menu-item"><span class="nm-icon">📋</span> My Bookings</a>
+                    <div class="nav-menu-divider"></div>
+                    <button class="nav-menu-item" id="nav-signout"><span class="nm-icon">🚪</span> Sign Out</button>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn btn-outline btn-sm">← Home</a>
+        </div>
+    </div>
+</header>
+<!-- Page title strip -->
+<div class="page-title-strip">
+    <div class="container">
+        <h1>Book a Pickup</h1>
+        <p>Choose your service and schedule your pickup in minutes</p>
+    </div>
+</div>
+
+
+<!-- ── Hero band ── -->
+<div class="booking-hero-band">
+    <img src="images/360_F_439442424_vMDwo65BxUdjzqvTRMg8EBjG6h1alYmX.jpg"
+         alt="" aria-hidden="true" class="booking-hero-img">
+    <div class="booking-hero-overlay"></div>
+    <div class="container booking-hero-content">
+        <h1>Book Your Pickup</h1>
+        <p>Complete the steps below. You'll see your estimate before paying anything.</p>
+    </div>
+</div>
+
+<!-- ── Main ── -->
+<main class="booking-main">
+    <div class="container booking-container">
+
+        <!-- Progress tracker -->
+        <div class="bk-progress" role="list" aria-label="Booking steps" style="display:none;">
+            <div class="bk-step active" data-step="1" role="listitem">
+                <div class="bk-step-bubble">1</div>
+                <span>Service</span>
+            </div>
+            <div class="bk-connector"></div>
+            <div class="bk-step" data-step="2" role="listitem">
+                <div class="bk-step-bubble">2</div>
+                <span>Your Info</span>
+            </div>
+            <div class="bk-connector"></div>
+            <div class="bk-step" data-step="3" role="listitem">
+                <div class="bk-step-bubble">3</div>
+                <span>Pickup</span>
+            </div>
+            <div class="bk-connector"></div>
+            <div class="bk-step" data-step="4" role="listitem">
+                <div class="bk-step-bubble">4</div>
+                <span>Waste &amp; Photos</span>
+            </div>
+            <div class="bk-connector"></div>
+            <div class="bk-step" data-step="5" role="listitem">
+                <div class="bk-step-bubble">5</div>
+                <span>Review &amp; Pay</span>
+            </div>
+        </div>
+
+        <!-- Step panels -->
+        <div class="bk-body">
+
+            <!-- ── GATE: How would you like to book? ── -->
+            <!-- Hidden when already signed in; skipped when ?guest=1 is in the URL -->
+            <div class="booking-gate" id="booking-gate">
+                <h2 class="booking-gate-title">How would you like to book?</h2>
+                <p class="booking-gate-sub">Choose an option below. You can always book without an account.</p>
+
+                <div class="gate-options">
+                    <!-- Sign In -->
+                    <a href="auth.html?redirect=booking.html" class="gate-card" id="gate-signin">
+                        <div class="gate-icon">🔑</div>
+                        <strong>Sign In</strong>
+                        <span>Use your existing account. We'll pre-fill your details automatically.</span>
+                    </a>
+
+                    <!-- Create Account -->
+                    <a href="auth.html?mode=signup&redirect=booking.html" class="gate-card" id="gate-signup">
+                        <div class="gate-icon">✨</div>
+                        <strong>Create Account</strong>
+                        <span>Free account to track all your bookings and pickup history.</span>
+                    </a>
+
+                    <!-- Guest -->
+                    <button class="gate-card gate-featured" id="gate-guest" type="button">
+                        <div class="gate-badge">No account needed</div>
+                        <div class="gate-icon">📦</div>
+                        <strong>Book as Guest</strong>
+                        <span>One-time booking. Just your name, email, and phone number.</span>
+                    </button>
+                </div>
+            </div>
+
+            <p class="gate-skip-note" id="gate-skip-note" hidden>
+                Booking as a guest. <a href="auth.html" style="color:var(--brand-light);">Sign in instead →</a>
+            </p>
+
+            <!-- ── STEP 1: Service ── -->
+            <section class="bk-panel" id="step-1" aria-label="Step 1: Choose service">
+                <div class="bk-panel-header">
+                    <span class="bk-step-tag">Step 1 of 5</span>
+                    <h2>Which service do you need?</h2>
+                    <p>Select the type of trash pickup you're looking for.</p>
+                </div>
+
+                <div class="service-pick-grid">
+                    <label class="service-pick-card">
+                        <input type="radio" name="serviceType" value="party" required>
+                        <div class="spc-inner">
+                            <div class="spc-img">
+                                <img src="https://images.pexels.com/photos/5716263/pexels-photo-5716263.jpeg?auto=compress&cs=tinysrgb&w=500"
+                                     alt="Party room with confetti and balloons before cleanup">
+                            </div>
+                            <div class="spc-body">
+                                <span class="spc-icon">🎉</span>
+                                <strong>Event Waste Removal</strong>
+                                <span>Weddings, birthdays, reunions, graduations, private events</span>
+                            </div>
+                            <div class="spc-check" aria-hidden="true">✓</div>
+                        </div>
+                    </label>
+
+                    <label class="service-pick-card">
+                        <input type="radio" name="serviceType" value="household">
+                        <div class="spc-inner">
+                            <div class="spc-img">
+                                <img src="https://images.pexels.com/photos/24827749/pexels-photo-24827749.jpeg?auto=compress&cs=tinysrgb&w=500"
+                                     alt="Cargo van loaded with household trash bags and cardboard">
+                            </div>
+                            <div class="spc-body">
+                                <span class="spc-icon">🏠</span>
+                                <strong>Recycling &amp; Composting / Household</strong>
+                                <span>Overflow trash, bagged waste, garage cleanouts, haul away</span>
+                            </div>
+                            <div class="spc-check" aria-hidden="true">✓</div>
+                        </div>
+                    </label>
+
+                    <label class="service-pick-card">
+                        <input type="radio" name="serviceType" value="business">
+                        <div class="spc-inner">
+                            <div class="spc-img">
+                                <img src="https://images.pexels.com/photos/27607953/pexels-photo-27607953.jpeg?auto=compress&cs=tinysrgb&w=500"
+                                     alt="Commercial bins filled with cardboard and debris">
+                            </div>
+                            <div class="spc-body">
+                                <span class="spc-icon">🏢</span>
+                                <strong>Post-Event Cleanup / Business</strong>
+                                <span>Restaurants, shops, commercial locations</span>
+                            </div>
+                            <div class="spc-check" aria-hidden="true">✓</div>
+                        </div>
+                    </label>
+                </div>
+
+                <p id="error-serviceType" style="display:none;color:#c0392b;font-size:.85rem;margin:0 0 8px;font-weight:500;">⚠️ Please select a service to continue.</p>
+                <div class="bk-actions">
+                    <button class="btn btn-solid btn-lg step-next" data-validate="serviceType">
+                        Continue <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ── STEP 2: Your Info ── -->
+            <section class="bk-panel" id="step-2" aria-label="Step 2: Contact information">
+                <div class="bk-panel-header">
+                    <span class="bk-step-tag">Step 2 of 5</span>
+                    <h2>Your contact information</h2>
+                    <p>We'll send your booking confirmation to this email address.</p>
+                </div>
+
+                <div class="bk-form-grid">
+                    <label class="bk-field bk-field-full">
+                        <span class="bk-label">Full name <em class="req">*</em></span>
+                        <input type="text" id="name" name="name" autocomplete="name"
+                               placeholder="Your full name" required maxlength="100">
+                        <span class="bk-error" id="error-name"></span>
+                    </label>
+                    <label class="bk-field">
+                        <span class="bk-label">Email address <em class="req">*</em></span>
+                        <input type="email" id="email" name="email" autocomplete="email"
+                               placeholder="you@example.com" required maxlength="200">
+                        <span class="bk-error" id="error-email"></span>
+                    </label>
+                    <label class="bk-field">
+                        <span class="bk-label">Phone number <em class="req">*</em></span>
+                        <input type="tel" id="phone" name="phone" autocomplete="tel"
+                               placeholder="(555) 000-0000" required maxlength="20">
+                        <span class="bk-error" id="error-phone"></span>
+                    </label>
+                    <label class="bk-field bk-field-full company-field" id="company-field-wrap" style="display:none">
+                        <span class="bk-label">Company or business name</span>
+                        <input type="text" id="companyName" name="companyName"
+                               placeholder="Business name" maxlength="100">
+                    </label>
+                </div>
+
+                <div class="bk-actions">
+                    <button class="btn btn-outline btn-lg step-back">← Back</button>
+                    <button class="btn btn-solid btn-lg step-next" data-validate="name,email,phone">
+                        Continue <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ── STEP 3: Pickup Details ── -->
+            <section class="bk-panel" id="step-3" aria-label="Step 3: Pickup details">
+                <div class="bk-panel-header">
+                    <span class="bk-step-tag">Step 3 of 5</span>
+                    <h2>Pickup details</h2>
+                    <p>Where and when should we arrive?</p>
+                </div>
+
+                <div class="bk-form-grid">
+                    <label class="bk-field bk-field-full">
+                        <span class="bk-label">Pickup address or location <em class="req">*</em></span>
+                        <input type="text" id="location" name="location"
+                               placeholder="Street address, city — or venue name"
+                               required maxlength="200" autocomplete="street-address">
+                        <span class="bk-error" id="error-location"></span>
+                    </label>
+                    <label class="bk-field">
+                        <span class="bk-label">Pickup date <em class="req">*</em></span>
+                        <input type="date" id="pickupDate" name="pickupDate" required>
+                        <span class="bk-error" id="error-pickupDate"></span>
+                    </label>
+                    <label class="bk-field">
+                        <span class="bk-label">Preferred time <em class="req">*</em></span>
+                        <input type="time" id="pickupTime" name="pickupTime" required>
+                        <span class="bk-error" id="error-pickupTime"></span>
+                    </label>
+                    <label class="bk-field bk-field-full" id="guests-label" style="display:none">
+                        <span class="bk-label">Estimated number of guests</span>
+                        <input type="number" id="guests" name="guests"
+                               min="0" max="5000" value="0">
+                        <span class="bk-hint">Helps estimate waste volume. Enter 0 if not applicable.</span>
+                    </label>
+                </div>
+
+                <div class="bk-actions">
+                    <button class="btn btn-outline btn-lg step-back">← Back</button>
+                    <button class="btn btn-solid btn-lg step-next" data-validate="location,pickupDate,pickupTime">
+                        Continue <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ── STEP 4: Waste & Photos ── -->
+            <section class="bk-panel" id="step-4" aria-label="Step 4: Waste and photos">
+                <div class="bk-panel-header">
+                    <span class="bk-step-tag">Step 4 of 5</span>
+                    <h2>Waste details &amp; photos</h2>
+                    <p>The more detail you give us, the more accurate your estimate will be.</p>
+                </div>
+
+                <div class="bk-form-grid">
+                    <label class="bk-field bk-field-full">
+                        <span class="bk-label">Type of waste <em class="req">*</em></span>
+                        <select id="trashType" name="trashType" required>
+                            <option value="">— Select waste type —</option>
+                            <option value="party-bagged">Party waste and bagged trash</option>
+                            <option value="mixed-household">Mixed household trash</option>
+                            <option value="bins-overflow">Bins and overflow pickup</option>
+                            <option value="light-bulk">Light bulk haul away</option>
+                        </select>
+                        <span class="bk-error" id="error-trashType"></span>
+                    </label>
+
+                    <label class="bk-field bk-field-full">
+                        <span class="bk-label">Additional notes</span>
+                        <textarea id="details" name="details" rows="4" maxlength="2000"
+                                  placeholder="Where is the trash located? How much is there? Any gate codes, stairs, or parking notes?"></textarea>
+                        <span class="bk-hint">Help us prepare the right truck and crew size.</span>
+                    </label>
+
+                    <!-- Photo upload -->
+                    <div class="bk-field bk-field-full">
+                        <span class="bk-label">Upload photos <span class="bk-optional">(recommended)</span></span>
+                        <div class="upload-zone" id="upload-area" tabindex="0"
+                             role="button" aria-label="Click or drag photos to upload">
+                            <input type="file" id="photo-input" class="upload-file-input"
+                                   accept="image/jpeg,image/png,image/webp,image/heic" multiple
+                                   aria-label="Choose photos">
+                            <div class="upload-zone-inner" id="upload-prompt">
+                                <div class="upload-icon-wrap">📷</div>
+                                <strong>Drag photos here, or click to browse</strong>
+                                <span>JPEG · PNG · WEBP · HEIC &nbsp;·&nbsp; Max 10 MB each &nbsp;·&nbsp; Up to 6 photos</span>
+                            </div>
+                        </div>
+                        <div id="upload-error" class="bk-upload-error" hidden></div>
+                        <div id="photo-preview" class="bk-photo-grid" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                <div class="bk-actions">
+                    <button class="btn btn-outline btn-lg step-back">← Back</button>
+                    <button class="btn btn-solid btn-lg step-next" data-validate="trashType">
+                        See My Estimate <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ── STEP 5: Review & Pay ── -->
+            <section class="bk-panel" id="step-5" aria-label="Step 5: Review and pay">
+                <div class="bk-panel-header">
+                    <span class="bk-step-tag">Step 5 of 5</span>
+                    <h2>Review &amp; pay your deposit</h2>
+                    <p>Check everything before paying. You can go back to make changes.</p>
+                </div>
+
+                <div class="review-layout">
+                    <!-- Summary -->
+                    <div class="review-summary-card" id="review-summary">
+                        <!-- populated by JS -->
+                    </div>
+
+                    <!-- Estimate + Pay -->
+                    <div class="estimate-pay-card">
+                        <div class="ep-header">
+                            <h3>Your Estimate</h3>
+                            <span class="ep-badge">Estimated · Not final</span>
+                        </div>
+
+                        <div class="ep-rows">
+                            <div class="ep-row">
+                                <span>Service total (estimated)</span>
+                                <strong id="est-total">—</strong>
+                            </div>
+                            <div class="ep-row ep-row-highlight">
+                                <div>
+                                    <strong>Deposit due now</strong>
+                                    <span>30% of estimated total</span>
+                                </div>
+                                <strong id="est-deposit" class="ep-deposit-amt">—</strong>
+                            </div>
+                            <div class="ep-row ep-row-balance">
+                                <span>Balance due at pickup</span>
+                                <strong id="est-balance">—</strong>
+                            </div>
+                        </div>
+
+                        <p class="ep-disclaimer">
+                            The estimated total is based on the job details you provided. The final price is confirmed at the time of service and may vary based on actual conditions.
+                        </p>
+
+                        <div id="payment-error" class="bk-pay-error" hidden></div>
+
+                        <button class="btn btn-solid btn-pay" id="pay-button" type="button">
+                            <span id="pay-label">Pay Deposit &amp; Confirm Booking</span>
+                            <span id="pay-spinner" class="pay-spin" hidden aria-hidden="true"></span>
+                        </button>
+
+                        <div class="ep-trust">
+                            <span class="ep-trust-item">🔒 Secured by Stripe</span>
+                            <span class="ep-trust-item">✉️ Instant confirmation email</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bk-actions" style="margin-top:24px;">
+                    <button class="btn btn-outline step-back">← Edit Details</button>
+                </div>
+            </section>
+
+        </div><!-- /bk-body -->
+    </div><!-- /container -->
+</main>
+
+<footer class="site-footer" style="margin-top:0;">
+    <div class="container footer-bottom" style="padding:28px 0;">
+        <p style="font-size:.82rem;">&copy; <span id="year"></span> NeatFleet Services LLC Trash Removal. All rights reserved.</p>
+        <a href="index.html" style="font-size:.82rem;color:rgba(255,255,255,.4);">← Back to Home</a>
+    </div>
+</footer>
+
+<script>
+    window.NEATFLEETS_CONFIG = {
+        apiBase: "https://YOUR_API_GATEWAY_ENDPOINT_HERE"
+    };
+</script>
+<script src="js/user.js"></script>
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/booking.js"></script>
+
+</body>
+</html>

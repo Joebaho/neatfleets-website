@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | NeatFleet Services LLC Trash Removal</title>
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="booking-page">
+
+<!-- ── Header ── -->
+<header class="site-header scrolled" id="site-header">
+    <div class="container nav-shell">
+        <a class="brand" href="/" aria-label="NeatFleet Services LLC home">
+            <img src="images/logo-neatfleets.png" alt="NeatFleet Services LLC" class="brand-logo">
+        </a>
+        <nav class="site-nav" id="site-nav">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/#services" class="nav-link">Services</a>
+            <a href="booking.html" class="btn btn-outline btn-sm">Book a Pickup</a>
+
+            <!-- Auth nav — managed by user.js -->
+            <a href="auth.html" class="nav-link" id="nav-signin">Sign In</a>
+            <div id="nav-account" style="display:none;">
+                <button id="nav-account-trigger">
+                    <span>👤</span>
+                    <span id="nav-account-name">My Account</span>
+                </button>
+                <div id="nav-account-menu">
+                    <a href="account.html" class="nav-menu-item">
+                        <span class="nm-icon">📋</span> My Bookings
+                    </a>
+                    <div class="nav-menu-divider"></div>
+                    <button class="nav-menu-item" id="nav-signout">
+                        <span class="nm-icon">🚪</span> Sign Out
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<!-- Page title strip -->
+<div class="page-title-strip">
+    <div class="container">
+        <h1>My Bookings</h1>
+        <p>View and manage your upcoming and past pickups</p>
+    </div>
+</div>
+
+
+<main class="account-main">
+    <div class="container">
+
+        <!-- Auth guard: redirects to sign-in if not logged in (handled by JS) -->
+        <div id="account-loading" class="account-loading">
+            <div class="account-spinner"></div>
+            <span>Loading your account…</span>
+        </div>
+
+        <!-- Account content (shown after auth check) -->
+        <div id="account-content" hidden>
+
+            <div class="account-header">
+                <p class="account-sub">Your account</p>
+                <h1 class="account-greeting" id="greeting">Welcome back</h1>
+                <p class="account-sub" id="account-email"></p>
+                <div class="account-actions">
+                    <a href="booking.html" class="btn btn-solid">+ Book a New Pickup</a>
+                    <button class="btn btn-outline" id="signout-btn">Sign Out</button>
+                </div>
+            </div>
+
+            <h2 style="font-size:1.15rem;font-weight:700;color:var(--text-primary);margin-bottom:20px;">
+                My Bookings
+            </h2>
+
+            <!-- Loading bookings -->
+            <div id="bookings-loading" class="account-loading">
+                <div class="account-spinner"></div>
+                <span>Loading your bookings…</span>
+            </div>
+
+            <!-- Bookings list -->
+            <div id="bookings-list" hidden></div>
+
+            <!-- Error loading bookings -->
+            <div id="bookings-error" hidden style="color:#ff6685;font-size:.9rem;padding:20px 0;"></div>
+
+        </div>
+
+    </div>
+</main>
+
+<footer class="site-footer" style="margin-top:0;">
+    <div class="container footer-bottom" style="padding:28px 0;">
+        <p style="font-size:.82rem;">&copy; <span id="year"></span> NeatFleet Services LLC Trash Removal.</p>
+        <a href="/" style="font-size:.82rem;color:rgba(255,255,255,.4);">← Home</a>
+    </div>
+</footer>
+
+<script>
+    window.NEATFLEETS_CONFIG = {
+        apiBase: "https://YOUR_API_GATEWAY_ENDPOINT_HERE"
+    };
+</script>
+<script src="js/user.js"></script>
+<script src="js/account.js"></script>
+
+</body>
+</html>
